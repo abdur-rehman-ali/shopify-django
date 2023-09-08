@@ -9,3 +9,7 @@ def product_detail(request, id):
   image_url = f"main/images/product/{id}.jpg"
   content = {'id': id, 'image_url': image_url}
   return render(request, template_name, content)
+
+def add_to_cart(request):
+  template_name = 'main/add_to_cart.html'
+  return render(request, template_name)
