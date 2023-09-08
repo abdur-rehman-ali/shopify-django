@@ -1,0 +1,27 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block title %}Product Detail{% endblock title %}
+{% block main-content %}
+<div class="container my-5">
+ <div class="row">
+  <div class="col-sm-6 text-center align-self-center">
+   <img src="{% static image_url %}" alt="" class="img-fluid img-thumbnail">
+  </div>
+  <div class="col-sm-5 offset-sm-1">
+   <h2>Product Title: Product {{ id }}</h2>
+   <hr>
+   <p><strong>Product Description:</strong> Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere, at. Dignissimos rerum incidunt temporibus laudantium. Rem, eveniet corporis. Itaque delectus quae nesciunt nemo, maiores minus deserunt vel. Vero, nulla quisquam!</p> <br>
+   <h4>139€ <small class="fw-light text-decoration-line-through">159€</small></h4> <br>
+   <a href="#" class="btn btn-dark shadow px-5 py-2">Add to Cart</a>
+   <a href="#" class="btn btn-dark shadow px-5 py-2 ms-4">Buy Now</a>
+   <h5 class="mt-5">Available Offers</h5>
+   <ul>
+    <li>Bank Offer 5% Unlimited Cashback on Mastercard</li>
+    <li>Special Price Get extra 30€ off (price inclusive of discount)</li>
+    <li>Available on installments</li>
+    <li>Special discounts for students</li>
+   </ul>
+  </div>
+ </div>
+</div>
+{% endblock main-content %}
