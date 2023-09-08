@@ -17,3 +17,7 @@ def add_to_cart(request):
 def buy_now(request):
   template_name = 'main/buy_now.html'
   return render(request, template_name)
+
+def profile(request):
+  template_name = 'main/profile.html'
+  return render(request, template_name)
