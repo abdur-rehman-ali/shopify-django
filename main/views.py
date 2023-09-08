@@ -13,3 +13,7 @@ def product_detail(request, id):
 def add_to_cart(request):
   template_name = 'main/add_to_cart.html'
   return render(request, template_name)
+
+def buy_now(request):
+  template_name = 'main/buy_now.html'
+  return render(request, template_name)
