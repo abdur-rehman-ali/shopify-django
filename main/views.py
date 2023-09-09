@@ -37,3 +37,7 @@ def checkout(request):
 def mobile_category(request):
   template_name = 'main/mobile_category.html'
   return render(request, template_name)
+
+def registration(request):
+  template_name = 'main/registration.html'
+  return render(request, template_name)
