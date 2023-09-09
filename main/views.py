@@ -1,8 +1,17 @@
 from django.shortcuts import render
+from .models import Product
 
 def index(request):
+  mobiles = Product.objects.filter(category='Mobile')
+  laptops = Product.objects.filter(category='Laptop')
+  products = Product.objects.all()
   template_name = 'main/index.html'
-  return render(request, template_name)
+  context = {
+    'mobiles': mobiles,
+    'laptops': laptops,
+    'products': products
+  }
+  return render(request, template_name, context)
 
 def product_detail(request, id):
   template_name = 'main/product_detail.html'

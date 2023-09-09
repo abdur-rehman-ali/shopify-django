@@ -38,26 +38,30 @@
 {% endblock livesale %}
 
 {% block main-content %}
-<!-- 1st Product Slider -->
+
+<!-- Laptops deals section -->
+{% if laptops %}
 <div class="m-3 px-5">
- <h2>Shopify Deals of The Day</h2>
- <!-- Slider 1 -->
- <div class="owl-carousel" id="slider1">
-  <a href="{% url 'product_detail' 1 %}" class="btn"><div class="item"><img src="{% static 'main/images/product/1.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 1</span><br><span class="fs-5">€50</span></div></a>
-  <a href="{% url 'product_detail' 2 %}" class="btn"><div class="item"><img src="{% static 'main/images/product/2.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 2</span><br><span class="fs-5">€30</span></div></a>
-  <a href="{% url 'product_detail' 3 %}" class="btn"><div class="item"><img src="{% static 'main/images/product/3.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 3</span><br><span class="fs-5">€10</span></div></a>
-  <a href="{% url 'product_detail' 4 %}" class="btn"><div class="item"><img src="{% static 'main/images/product/4.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 4</span><br><span class="fs-5">€70</span></div></a>
-  <a href="{% url 'product_detail' 5 %}" class="btn"><div class="item"><img src="{% static 'main/images/product/5.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 5</span><br><span class="fs-5">€50</span></div></a>
-  <a href="{% url 'product_detail' 6 %}" class="btn"><div class="item"><img src="{% static 'main/images/product/6.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 6</span><br><span class="fs-5">€40</span></div></a>
-  <a href="{% url 'product_detail' 7 %}" class="btn"><div class="item"><img src="{% static 'main/images/product/7.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 7</span><br><span class="fs-5">€50</span></div></a>
-  <a href="{% url 'product_detail' 8 %}" class="btn"><div class="item"><img src="{% static 'main/images/product/8.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 8</span><br><span class="fs-5">€30</span></div></a>
-  <a href="{% url 'product_detail' 9 %}" class="btn"><div class="item"><img src="{% static 'main/images/product/9.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 9</span><br><span class="fs-5">€60</span></div></a>
-  <a href="{% url 'product_detail' 10 %}" class="btn"><div class="item"><img src="{% static 'main/images/product/10.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 10</span><br><span class="fs-5">€90</span></div></a>
-  <a href="{% url 'product_detail' 11 %}" class="btn"><div class="item"><img src="{% static 'main/images/product/11.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 11</span><br><span class="fs-5">€10</span></div></a>
-  <a href="{% url 'product_detail' 12 %}" class="btn"><div class="item"><img src="{% static 'main/images/product/12.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 12</span><br><span class="fs-5">€20</span></div></a>
- </div>
+  <h2>Laptops Deals of The Day</h2>
+  <div class="owl-carousel" id="slider1">
+   {% for laptop in laptops %} 
+   <a href="{% url 'product_detail' laptop.id %}" class="btn"><div class="item"><img src="{{ laptop.product_image.url }}" alt="Product Here" height="200px"><span class="fw-bold">{{ laptop.title }}</span><br><span class="fs-5">€ {{ laptop.discounted_price }}</span></div></a>
+   {% endfor %} 
+  </div>
 </div>
-<!-- End 1st Product Slider -->
+{% endif %}
+
+<!-- Mobiles deals section  -->
+{% if mobiles %}
+<div class="m-3 px-5">
+  <h2>Mobiles Deals of The Day</h2>
+  <div class="owl-carousel" id="slider2">
+   {% for mobile in mobiles %} 
+   <a href="{% url 'product_detail' mobile.id %}" class="btn"><div class="item"><img src="{{ mobile.product_image.url }}" alt="Product Here" height="200px"><span class="fw-bold">{{ mobile.title }}</span><br><span class="fs-5">€ {{ mobile.discounted_price }}</span></div></a>
+   {% endfor %} 
+  </div>
+</div>
+{% endif %}
 
 <!-- Payment Info Section -->
 <div class="container my-5">
@@ -88,25 +92,15 @@
 </div>
 <!-- End Payment Info Section -->
 
-<!-- 2nd Product Slider -->
+{% if products %}
 <div class="mx-3 px-5">
- <h2>Trending Deals</h2>
- <!-- Slider 2 -->
- <div class="owl-carousel" id="slider2">
-  <a href="{% url 'product_detail' 12 %}" class="btn"><div class="item"><img src="{% static 'main/images/product/12.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 1</span><br><span class="fs-5">€50</span></div></a>
-  <a href="{% url 'product_detail' 11 %}" class="btn"><div class="item"><img src="{% static 'main/images/product/11.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 2</span><br><span class="fs-5">€30</span></div></a>
-  <a href="{% url 'product_detail' 10 %}" class="btn"><div class="item"><img src="{% static 'main/images/product/10.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 3</span><br><span class="fs-5">€10</span></div></a>
-  <a href="{% url 'product_detail' 9 %}" class="btn"><div class="item"><img src="{% static 'main/images/product/9.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 4</span><br><span class="fs-5">€70</span></div></a>
-  <a href="{% url 'product_detail' 8 %}" class="btn"><div class="item"><img src="{% static 'main/images/product/8.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 5</span><br><span class="fs-5">€50</span></div></a>
-  <a href="{% url 'product_detail' 11 %}" class="btn"><div class="item"><img src="{% static 'main/images/product/11.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 6</span><br><span class="fs-5">€40</span></div></a>
-  <a href="{% url 'product_detail' 5 %}" class="btn"><div class="item"><img src="{% static 'main/images/product/5.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 7</span><br><span class="fs-5">€50</span></div></a>
-  <a href="{% url 'product_detail' 11 %}" class="btn"><div class="item"><img src="{% static 'main/images/product/11.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 8</span><br><span class="fs-5">€30</span></div></a>
-  <a href="{% url 'product_detail' 12 %}" class="btn"><div class="item"><img src="{% static 'main/images/product/12.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 9</span><br><span class="fs-5">€60</span></div></a>
-  <a href="{% url 'product_detail' 7 %}" class="btn"><div class="item"><img src="{% static 'main/images/product/7.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 10</span><br><span class="fs-5">€90</span></div></a>
-  <a href="{% url 'product_detail' 6 %}" class="btn"><div class="item"><img src="{% static 'main/images/product/6.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 11</span><br><span class="fs-5">€10</span></div></a>
-  <a href="{% url 'product_detail' 10 %}" class="btn"><div class="item"><img src="{% static 'main/images/product/10.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 12</span><br><span class="fs-5">€20</span></div></a>
- </div>
+ <h2>Trending Products</h2>
+ <div class="owl-carousel" id="slider3">
+  {% for product in products%}
+    <a href="{% url 'product_detail' product.id %}" class="btn"><div class="item"><img src="{{ product.product_image.url }}" alt="Image here" height="200px"><span class="fw-bold">{{ product.title }}</span><br><span class="fs-5">€ {{ product.discounted_price }}</span></div></a>
+  {% endfor%}
+  </div>
 </div>
-<!-- End 2nd Product Slider -->
+{% endif %}
 {% endblock main-content %}
 
