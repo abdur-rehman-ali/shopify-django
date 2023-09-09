@@ -25,3 +25,7 @@ def profile(request):
 def address(request):
   template_name = 'main/address.html'
   return render(request, template_name)
+
+def orders(request):
+  template_name = 'main/orders.html'
+  return render(request, template_name)
