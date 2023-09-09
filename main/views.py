@@ -45,3 +45,7 @@ def registration(request):
 def login(request):
   template_name = 'main/login.html'
   return render(request, template_name)
+
+def password_change(request):
+  template_name = 'main/password_change.html'
+  return render(request, template_name)
