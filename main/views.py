@@ -29,3 +29,7 @@ def address(request):
 def orders(request):
   template_name = 'main/orders.html'
   return render(request, template_name)
+
+def checkout(request):
+  template_name = 'main/checkout.html'
+  return render(request, template_name)
