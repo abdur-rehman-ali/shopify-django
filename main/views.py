@@ -21,3 +21,7 @@ def buy_now(request):
 def profile(request):
   template_name = 'main/profile.html'
   return render(request, template_name)
+
+def address(request):
+  template_name = 'main/address.html'
+  return render(request, template_name)
