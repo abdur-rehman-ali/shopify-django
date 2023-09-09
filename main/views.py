@@ -33,3 +33,7 @@ def orders(request):
 def checkout(request):
   template_name = 'main/checkout.html'
   return render(request, template_name)
+
+def mobile_category(request):
+  template_name = 'main/mobile_category.html'
+  return render(request, template_name)
