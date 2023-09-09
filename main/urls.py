@@ -13,4 +13,5 @@ urlpatterns = [
   path('category/mobile', views.mobile_category, name="mobile_category"),
   path('registration', views.registration, name="registration"),
   path('login', views.login, name="login"),
+  path('change/password', views.password_change, name="password_change")
 ]
