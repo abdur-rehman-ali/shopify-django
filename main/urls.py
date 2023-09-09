@@ -10,4 +10,5 @@ urlpatterns = [
   path('address', views.address, name="address"),
   path('orders', views.orders, name="orders"),
   path('checkout', views.checkout, name="checkout"),
+  path('category/mobile', views.mobile_category, name="mobile_category"),
 ]
