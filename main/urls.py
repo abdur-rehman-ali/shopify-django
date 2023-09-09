@@ -12,4 +12,5 @@ urlpatterns = [
   path('checkout', views.checkout, name="checkout"),
   path('category/mobile', views.mobile_category, name="mobile_category"),
   path('registration', views.registration, name="registration"),
+  path('login', views.login, name="login"),
 ]

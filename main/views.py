@@ -41,3 +41,7 @@ def mobile_category(request):
 def registration(request):
   template_name = 'main/registration.html'
   return render(request, template_name)
+
+def login(request):
+  template_name = 'main/login.html'
+  return render(request, template_name)
