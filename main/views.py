@@ -14,10 +14,10 @@ def index(request):
   return render(request, template_name, context)
 
 def product_detail(request, id):
+  product = Product.objects.get(id=id)
   template_name = 'main/product_detail.html'
-  image_url = f"main/images/product/{id}.jpg"
-  content = {'id': id, 'image_url': image_url}
-  return render(request, template_name, content)
+  context = { 'product': product }
+  return render(request, template_name, context)
 
 def add_to_cart(request):
   template_name = 'main/add_to_cart.html'
