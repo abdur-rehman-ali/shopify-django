@@ -44,16 +44,13 @@ def checkout(request):
   return render(request, template_name)
 
 def mobile_category(request, data=None):
-  if data is None:
-    mobiles = Product.objects.filter(category='Mobile')
-  elif data == 'apple' or data == 'samsung':
-    mobiles = Product.objects.filter(category='Mobile').filter(brand=data)
+  mobiles = Product.objects.filter(category='Mobile')
+  if data == 'apple' or data == 'samsung':
+    mobiles = mobiles.filter(brand=data)
   elif data == 'less_than_300':
-    mobiles = Product.objects.filter(category='Mobile').filter(selling_price__lte=300)
+    mobiles = mobiles.filter(selling_price__lte=300)
   elif data == 'less_than_500':
-    mobiles = Product.objects.filter(category='Mobile').filter(selling_price__lte=500)
-  else:
-    mobiles = Product.objects.filter(category='Mobile')
+    mobiles = mobiles.filter(selling_price__lte=500)
   template_name = 'main/mobile_category.html'
   context = {'mobiles': mobiles}
   return render(request, template_name, context)
