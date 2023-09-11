@@ -48,6 +48,10 @@ def mobile_category(request, data=None):
     mobiles = Product.objects.filter(category='Mobile')
   elif data == 'apple' or data == 'samsung':
     mobiles = Product.objects.filter(category='Mobile').filter(brand=data)
+  elif data == 'less_than_300':
+    mobiles = Product.objects.filter(category='Mobile').filter(selling_price__lte=300)
+  elif data == 'less_than_500':
+    mobiles = Product.objects.filter(category='Mobile').filter(selling_price__lte=500)
   else:
     mobiles = Product.objects.filter(category='Mobile')
   template_name = 'main/mobile_category.html'
