@@ -55,6 +55,18 @@ def mobile_category(request, data=None):
   context = {'mobiles': mobiles}
   return render(request, template_name, context)
 
+def laptop_category(request, data=None):
+  laptops = Product.objects.filter(category='Laptop')
+  if data == 'Apple' or data == 'HP':
+    laptops = laptops.filter(brand=data)
+  elif data == 'less_than_500':
+    laptops = laptops.filter(selling_price__lte=500)
+  elif data == 'less_than_1000':
+    laptops = laptops.filter(selling_price__lte=1000)
+  template_name = 'main/laptop_category.html'
+  context = {'laptops': laptops}
+  return render(request, template_name, context)
+
 def registration(request):
   template_name = 'main/registration.html'
   return render(request, template_name)

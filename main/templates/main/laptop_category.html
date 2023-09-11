@@ -1,0 +1,33 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block title %}Laptop{% endblock title %}
+{% block main-content %}
+<div class="container my-5">
+ <div class="row">
+  <div class="col-sm-3">
+   <h3>Laptop Filters</h3>
+   <ul class="list-group">
+    <li class="list-group-item"><a href="{% url 'laptop_category_index' %}" class="btn">All laptop</a></li>
+    <li class="list-group-item"><a href="{% url 'laptop_category' 'Apple' %}" class="btn">Apple</a></li>
+    <li class="list-group-item"><a href="{% url 'laptop_category' 'HP' %}" class="btn">HP</a></li>
+    <li class="list-group-item"><a href="{% url 'laptop_category' 'less_than_500' %}" class="btn">Less than 500</a></li>
+    <li class="list-group-item"><a href="{% url 'laptop_category' 'less_than_1000' %}" class="btn">Less than 1000</a></li>
+  </ul>
+  </div>
+  <div class="col-sm-8 offset-sm-1 d-flex flex-wrap">
+    {% if laptops %}
+      {% for laptop in laptops %}
+        <div class="card mx-1 my-1" style="width: 20rem;">
+          <img src="{{ laptop.product_image.url }}" alt="Card image cap" width="100%" height="300px">
+          <div class="card-body">
+            <h5 class="card-title">{{ laptop.title }}</h5>
+            <p class="card-text">{{ laptop.selling_price }}€</p>
+            <a href="{% url 'product_detail' laptop.id %}" class="btn btn-outline-dark">Details</a>
+          </div>
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+ </div>
+</div>
+{% endblock main-content %}
