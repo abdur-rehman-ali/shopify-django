@@ -43,9 +43,16 @@ def checkout(request):
   template_name = 'main/checkout.html'
   return render(request, template_name)
 
-def mobile_category(request):
+def mobile_category(request, data=None):
+  if data is None:
+    mobiles = Product.objects.filter(category='Mobile')
+  elif data == 'apple' or data == 'samsung':
+    mobiles = Product.objects.filter(category='Mobile').filter(brand=data)
+  else:
+    mobiles = Product.objects.filter(category='Mobile')
   template_name = 'main/mobile_category.html'
-  return render(request, template_name)
+  context = {'mobiles': mobiles}
+  return render(request, template_name, context)
 
 def registration(request):
   template_name = 'main/registration.html'
