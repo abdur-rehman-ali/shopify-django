@@ -1,5 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Product
+from .forms import CustomerRegistrationForm
+from django.contrib import messages
+from django.urls import reverse
 
 def index(request):
   mobiles = Product.objects.filter(category='Mobile')
@@ -68,8 +71,18 @@ def laptop_category(request, data=None):
   return render(request, template_name, context)
 
 def registration(request):
+  if request.method == 'POST':
+    form = CustomerRegistrationForm(request.POST)
+    if form.is_valid():
+      form.save()
+      messages.success(request, "Registration successful!!!")
+      form = CustomerRegistrationForm(label_suffix='')
+      return redirect(reverse('registration'))
+  else: 
+    form = CustomerRegistrationForm(label_suffix='')
+  context = {'form': form}
   template_name = 'main/registration.html'
-  return render(request, template_name)
+  return render(request, template_name, context)
 
 def login(request):
   template_name = 'main/login.html'
