@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from .models import Product
-from .forms import CustomerRegistrationForm
+from .forms import CustomerRegistrationForm, CustomerLoginForm
 from django.contrib import messages
 from django.urls import reverse
+from django.contrib.auth import login as auth_login, authenticate
 
 def index(request):
   mobiles = Product.objects.filter(category='Mobile')
@@ -85,8 +86,22 @@ def registration(request):
   return render(request, template_name, context)
 
 def login(request):
+  if request.method == 'POST':
+    form = CustomerLoginForm(request, data=request.POST)
+    if form.is_valid():
+      username = form.cleaned_data['username']
+      password = form.cleaned_data['password']
+      user = authenticate(request, username=username, password=password)
+      if user is not None:
+        auth_login(request, user)
+        return redirect(reverse('profile'))
+      else:
+        messages.error(request, "Invalid credentials !!!")
+  else:
+    form = CustomerLoginForm()
+  context = {'form': form}
   template_name = 'main/login.html'
-  return render(request, template_name)
+  return render(request, template_name, context)
 
 def password_change(request):
   template_name = 'main/password_change.html'
