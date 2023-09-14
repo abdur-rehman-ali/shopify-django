@@ -4,7 +4,7 @@ from django.conf.urls.static import static
 from . import views
 
 urlpatterns = [
-  path('', views.index),
+  path('', views.index, name='home'),
   path('product/detail/<int:id>', views.product_detail, name="product_detail"),
   path('shopping-cart', views.add_to_cart, name="add_to_cart"),
   path('buy-product', views.buy_now, name="buy_now"),
@@ -18,5 +18,6 @@ urlpatterns = [
   path('category/laptop/<slug:data>', views.laptop_category, name="laptop_category"),
   path('registration', views.registration, name="registration"),
   path('login', views.login, name="login"),
+  path('logout', views.logout, name="logout"),
   path('change/password', views.password_change, name="password_change")
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

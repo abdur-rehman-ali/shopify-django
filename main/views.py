@@ -3,7 +3,7 @@ from .models import Product
 from .forms import CustomerRegistrationForm, CustomerLoginForm
 from django.contrib import messages
 from django.urls import reverse
-from django.contrib.auth import login as auth_login, authenticate
+from django.contrib.auth import login as auth_login, authenticate, logout as auth_logout
 
 def index(request):
   mobiles = Product.objects.filter(category='Mobile')
@@ -102,6 +102,10 @@ def login(request):
   context = {'form': form}
   template_name = 'main/login.html'
   return render(request, template_name, context)
+
+def logout(request):
+  auth_logout(request)
+  return redirect(reverse('home'))
 
 def password_change(request):
   template_name = 'main/password_change.html'
