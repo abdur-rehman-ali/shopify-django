@@ -8,6 +8,7 @@ from django.contrib.auth import (
   logout as auth_logout,
   update_session_auth_hash
 )
+from django.contrib.auth.decorators import login_required
 
 # Local Imports 
 from .models import Product
@@ -43,14 +44,17 @@ def buy_now(request):
   template_name = 'main/buy_now.html'
   return render(request, template_name)
 
+@login_required(login_url='login')
 def profile(request):
   template_name = 'main/profile.html'
   return render(request, template_name)
 
+@login_required(login_url='login')
 def address(request):
   template_name = 'main/address.html'
   return render(request, template_name)
 
+@login_required(login_url='login')
 def orders(request):
   template_name = 'main/orders.html'
   return render(request, template_name)
@@ -119,6 +123,7 @@ def logout(request):
   auth_logout(request)
   return redirect(reverse('home'))
 
+@login_required(login_url='login')
 def password_change(request):
   if request.method == 'POST':
     form = CustomerPasswordChangeForm(request.user, request.POST)
