@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from .models import Product
-from .forms import CustomerRegistrationForm, CustomerLoginForm
+from .forms import CustomerRegistrationForm, CustomerLoginForm, CustomerPasswordChangeForm
 from django.contrib import messages
 from django.urls import reverse
-from django.contrib.auth import login as auth_login, authenticate, logout as auth_logout
+from django.contrib.auth import login as auth_login, authenticate, logout as auth_logout, update_session_auth_hash
+
 
 def index(request):
   mobiles = Product.objects.filter(category='Mobile')
@@ -108,5 +109,15 @@ def logout(request):
   return redirect(reverse('home'))
 
 def password_change(request):
+  if request.method == 'POST':
+    form = CustomerPasswordChangeForm(request.user, request.POST)
+    if form.is_valid():
+        user = form.save()
+        update_session_auth_hash(request, user)
+        messages.success(request, 'Your password is successfully updated!')
+        return redirect(reverse('password_change'))
+  else:
+    form = CustomerPasswordChangeForm(request.user)
   template_name = 'main/password_change.html'
-  return render(request, template_name)
+  context = {'form': form}
+  return render(request, template_name, context)
