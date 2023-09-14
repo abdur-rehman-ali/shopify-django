@@ -1,10 +1,21 @@
+# Django Imports 
 from django.shortcuts import render, redirect
-from .models import Product
-from .forms import CustomerRegistrationForm, CustomerLoginForm, CustomerPasswordChangeForm
 from django.contrib import messages
 from django.urls import reverse
-from django.contrib.auth import login as auth_login, authenticate, logout as auth_logout, update_session_auth_hash
+from django.contrib.auth import (
+  login as auth_login,
+  authenticate,
+  logout as auth_logout,
+  update_session_auth_hash
+)
 
+# Local Imports 
+from .models import Product
+from .forms import (
+  CustomerRegistrationForm, 
+  CustomerLoginForm, 
+  CustomerPasswordChangeForm
+)
 
 def index(request):
   mobiles = Product.objects.filter(category='Mobile')

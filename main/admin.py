@@ -1,4 +1,7 @@
+# Django Imports 
 from django.contrib import admin
+
+# Local Imports
 from .models import Product
 
 @admin.register(Product)
