@@ -1,10 +1,22 @@
+# Django Imports 
 from django.shortcuts import render, redirect
-from .models import Product
-from .forms import CustomerRegistrationForm, CustomerLoginForm, CustomerPasswordChangeForm
 from django.contrib import messages
 from django.urls import reverse
-from django.contrib.auth import login as auth_login, authenticate, logout as auth_logout, update_session_auth_hash
+from django.contrib.auth import (
+  login as auth_login,
+  authenticate,
+  logout as auth_logout,
+  update_session_auth_hash
+)
+from django.contrib.auth.decorators import login_required
 
+# Local Imports 
+from .models import Product
+from .forms import (
+  CustomerRegistrationForm, 
+  CustomerLoginForm, 
+  CustomerPasswordChangeForm
+)
 
 def index(request):
   mobiles = Product.objects.filter(category='Mobile')
@@ -32,14 +44,17 @@ def buy_now(request):
   template_name = 'main/buy_now.html'
   return render(request, template_name)
 
+@login_required(login_url='login')
 def profile(request):
   template_name = 'main/profile.html'
   return render(request, template_name)
 
+@login_required(login_url='login')
 def address(request):
   template_name = 'main/address.html'
   return render(request, template_name)
 
+@login_required(login_url='login')
 def orders(request):
   template_name = 'main/orders.html'
   return render(request, template_name)
@@ -76,10 +91,10 @@ def registration(request):
   if request.method == 'POST':
     form = CustomerRegistrationForm(request.POST)
     if form.is_valid():
-      form.save()
+      user = form.save()
+      auth_login(request, user)
       messages.success(request, "Registration successful!!!")
-      form = CustomerRegistrationForm(label_suffix='')
-      return redirect(reverse('registration'))
+      return redirect(reverse('profile'))
   else: 
     form = CustomerRegistrationForm(label_suffix='')
   context = {'form': form}
@@ -95,6 +110,7 @@ def login(request):
       user = authenticate(request, username=username, password=password)
       if user is not None:
         auth_login(request, user)
+        messages.success(request, "Login successful!!!")
         return redirect(reverse('profile'))
       else:
         messages.error(request, "Invalid credentials !!!")
@@ -108,6 +124,7 @@ def logout(request):
   auth_logout(request)
   return redirect(reverse('home'))
 
+@login_required(login_url='login')
 def password_change(request):
   if request.method == 'POST':
     form = CustomerPasswordChangeForm(request.user, request.POST)
