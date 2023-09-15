@@ -91,10 +91,10 @@ def registration(request):
   if request.method == 'POST':
     form = CustomerRegistrationForm(request.POST)
     if form.is_valid():
-      form.save()
+      user = form.save()
+      auth_login(request, user)
       messages.success(request, "Registration successful!!!")
-      form = CustomerRegistrationForm(label_suffix='')
-      return redirect(reverse('registration'))
+      return redirect(reverse('profile'))
   else: 
     form = CustomerRegistrationForm(label_suffix='')
   context = {'form': form}
@@ -110,6 +110,7 @@ def login(request):
       user = authenticate(request, username=username, password=password)
       if user is not None:
         auth_login(request, user)
+        messages.success(request, "Login successful!!!")
         return redirect(reverse('profile'))
       else:
         messages.error(request, "Invalid credentials !!!")

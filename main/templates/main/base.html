@@ -84,6 +84,11 @@
     </nav>
     {% block banner_slider %} {% endblock banner_slider %}
     {% block livesale %} {% endblock livesale %}
+    {% if messages %}
+      {% for message in messages %}
+        <p {% if message.tags %} class="alert alert-{{message.tags}} mb-2" {% endif %}>{{ message }}</p>
+      {% endfor %}
+    {% endif %}
     {% block main-content %} {% endblock main-content %}
 
     <!-- Start Footer -->
