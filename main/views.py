@@ -11,11 +11,15 @@ from django.contrib.auth import (
 from django.contrib.auth.decorators import login_required
 
 # Local Imports 
-from .models import Product
+from .models import (
+  Product,
+  Address
+)
 from .forms import (
   CustomerRegistrationForm, 
   CustomerLoginForm, 
-  CustomerPasswordChangeForm
+  CustomerPasswordChangeForm,
+  AddressForm
 )
 
 def index(request):
@@ -46,8 +50,26 @@ def buy_now(request):
 
 @login_required(login_url='login')
 def profile(request):
+  if request.method == 'POST':
+    form = AddressForm(request.POST)
+    if form.is_valid():
+      new_address = Address(
+        street=form.cleaned_data['street'],
+        state=form.cleaned_data['state'],
+        city=form.cleaned_data['city'],
+        country=form.cleaned_data['country'],
+        zip_code=form.cleaned_data['zip_code'],
+        phone_number=form.cleaned_data['phone_number'],
+        user=request.user
+      )
+      new_address.save()
+      messages.success(request, 'Your adress is successfully added!')
+      return redirect(reverse('address'))
+  else:
+    form = AddressForm(label_suffix='')
+  context = {'form': form}
   template_name = 'main/profile.html'
-  return render(request, template_name)
+  return render(request, template_name, context)
 
 @login_required(login_url='login')
 def address(request):
