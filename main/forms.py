@@ -57,3 +57,32 @@ class CustomerPasswordChangeForm(PasswordChangeForm):
       label='New Password Confirmation', 
       widget=forms.PasswordInput(attrs={'class': 'form-control'})
     ) 
+
+class AddressForm(forms.Form):
+  """
+    A adress form for user's addresses.
+  """
+  street = forms.CharField(
+    max_length=255,
+    widget=forms.TextInput(attrs={'class': 'form-control'})
+  )
+  state = forms.CharField(
+    max_length=100,
+    widget=forms.TextInput(attrs={'class': 'form-control'})
+  )
+  city = forms.CharField(
+    max_length=100,
+    widget=forms.TextInput(attrs={'class': 'form-control'})
+  )
+  country = forms.CharField(
+    max_length=100,
+    widget=forms.TextInput(attrs={'class': 'form-control'})
+  )
+  zip_code = forms.CharField(
+    max_length=100,
+    widget=forms.TextInput(attrs={'class': 'form-control'})
+  )
+  phone_number = forms.CharField(
+    max_length=20,
+    widget=forms.TextInput(attrs={'class': 'form-control'})
+  )

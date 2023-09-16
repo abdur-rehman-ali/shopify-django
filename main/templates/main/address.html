@@ -13,28 +13,23 @@
   </div>
   <div class="col-sm-9 offset-sm-1">
    <div class="row">
-    <div class="col-sm-6">
-     <div class="card">
-      <div class="card-body">
-       <h3>Address 1</h3>
-       <p>Name: Shah Bakht</p>
-       <p>Address 1: Dublin</p>
-       <p>Address 2: Galway</p>
-       <p>Country: Ireland</p>
+    {% if user_addresses %}
+      {% for address in user_addresses %}
+      <div class="col-sm-6 mb-2">
+        <div class="card">
+          <div class="card-body">
+          <h3>Address {{ forloop.counter }}</h3>
+          <p><strong>Street:</strong> {{ address.street}}</p>
+          <p><strong>State:</strong> {{ address.state}}</p>
+          <p><strong>City</strong> {{ address.city}}</p>
+          <p><strong>Country:</strong> {{ address.country}}</p>
+          <p><strong>Zip Pin:</strong> {{ address.zip_code}}</p>
+          <p><strong>Phone:</strong> {{ address.phone_number}}</p>
+        </div>
       </div>
-     </div>
-    </div>
-    <div class="col-sm-6">
-     <div class="card">
-      <div class="card-body">
-       <h3>Address 2</h3>
-       <p>Name: Shah Bakht</p>
-       <p>Address 1: Cork</p>
-       <p>Address 2: Galway</p>
-       <p>Country: Ireland</p>
       </div>
-     </div>
-    </div>
+      {% endfor %}
+    {% endif %}
    </div>
   </div>
  </div>
