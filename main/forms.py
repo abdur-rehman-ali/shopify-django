@@ -59,6 +59,9 @@ class CustomerPasswordChangeForm(PasswordChangeForm):
     ) 
 
 class AddressForm(forms.Form):
+  """
+    A adress form for user's addresses.
+  """
   street = forms.CharField(
     max_length=255,
     widget=forms.TextInput(attrs={'class': 'form-control'})
