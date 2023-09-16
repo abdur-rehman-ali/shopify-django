@@ -73,8 +73,10 @@ def profile(request):
 
 @login_required(login_url='login')
 def address(request):
+  user_addresses = request.user.addresses.all()
+  context = {'user_addresses': user_addresses}
   template_name = 'main/address.html'
-  return render(request, template_name)
+  return render(request, template_name, context)
 
 @login_required(login_url='login')
 def orders(request):
