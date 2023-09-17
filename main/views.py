@@ -40,8 +40,8 @@ def product_detail(request, id):
   context = { 'product': product }
   return render(request, template_name, context)
 
-def add_to_cart(request):
-  template_name = 'main/add_to_cart.html'
+def shopping_cart(request):
+  template_name = 'main/shopping_cart.html'
   return render(request, template_name)
 
 def buy_now(request):

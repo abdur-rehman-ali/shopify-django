@@ -12,7 +12,7 @@
    <hr>
    <p><strong>Description:</strong> {{ product.description }} </p> <br>
    <h4>{{product.selling_price }}€ <small class="fw-light text-decoration-line-through">{{ product.discounted_price }}€</small></h4> <br>
-   <a href="{% url 'add_to_cart' %}" class="btn btn-dark shadow px-5 py-2">Add to Cart</a>
+   <a href="{% url 'shopping_cart' %}" class="btn btn-dark shadow px-5 py-2">Add to Cart</a>
    <a href="{% url 'buy_now' %}" class="btn btn-dark shadow px-5 py-2 ms-4">Buy Now</a>
    <h5 class="mt-5">Available Offers</h5>
    <ul>

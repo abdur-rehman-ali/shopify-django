@@ -29,3 +29,8 @@ class Address(models.Model):
   zip_code = models.CharField(max_length=100)
   phone_number = models.CharField(max_length=20)
   user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='addresses')
+
+class ShoppingCart(models.Model):
+  product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='products')
+  user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user')
+  quantity = models.IntegerField(default=1)
