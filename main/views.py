@@ -13,7 +13,8 @@ from django.contrib.auth.decorators import login_required
 # Local Imports 
 from .models import (
   Product,
-  Address
+  Address,
+  ShoppingCart
 )
 from .forms import (
   CustomerRegistrationForm, 
@@ -43,6 +44,24 @@ def product_detail(request, id):
 def shopping_cart(request):
   template_name = 'main/shopping_cart.html'
   return render(request, template_name)
+
+@login_required(login_url='login')
+def add_to_cart(request):
+  if request.method == 'POST':
+    product_id = request.POST['product_id']
+    if product_id is not None:
+      product = Product.objects.get(id=product_id)
+      user = request.user
+      cart_record, created = ShoppingCart.objects.get_or_create(
+        product=product,
+        user=user
+      )
+      if not created:
+        cart_record.quantity += 1
+        cart_record.save()
+      messages.success(request, 'Product has been added to cart')
+      return redirect(request.META.get('HTTP_REFERER', '/'))
+
 
 def buy_now(request):
   template_name = 'main/buy_now.html'

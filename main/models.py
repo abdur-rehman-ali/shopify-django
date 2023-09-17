@@ -34,3 +34,5 @@ class ShoppingCart(models.Model):
   product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='products')
   user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user')
   quantity = models.IntegerField(default=1)
+  class Meta:
+    unique_together = ('product', 'user')
