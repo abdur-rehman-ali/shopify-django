@@ -41,9 +41,12 @@ def product_detail(request, id):
   context = { 'product': product }
   return render(request, template_name, context)
 
+@login_required(login_url='login')
 def shopping_cart(request):
+  cart_items = request.user.cart_items.all()
+  context = {'cart_items': cart_items}
   template_name = 'main/shopping_cart.html'
-  return render(request, template_name)
+  return render(request, template_name, context)
 
 @login_required(login_url='login')
 def add_to_cart(request):
