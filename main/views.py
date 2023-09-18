@@ -44,9 +44,24 @@ def product_detail(request, id):
 @login_required(login_url='login')
 def shopping_cart(request):
   cart_items = request.user.cart_items.all()
-  context = {'cart_items': cart_items}
+  amount_without_shipping, amount_with_shipping, shipping = calulate_cart_amount(cart_items)
+  context = {
+    'cart_items': cart_items,
+    'amount_without_shipping': amount_without_shipping,
+    'amount_with_shipping': amount_with_shipping,
+    'shipping': shipping
+    }
   template_name = 'main/shopping_cart.html'
   return render(request, template_name, context)
+
+def calulate_cart_amount(cart_items):
+  amount_without_shipping = 0
+  for item in cart_items:
+    amount_without_shipping += (item.product.discounted_price * item.quantity)
+  shipping = 7.0
+  amount_with_shipping = amount_without_shipping + shipping
+  return amount_without_shipping, amount_with_shipping, shipping
+
 
 @login_required(login_url='login')
 def add_to_cart(request):
