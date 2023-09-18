@@ -41,7 +41,26 @@ $('.plus-cart').click(function () {
         type: 'GET',
         url: `${BASE_URL}/update-cart`,
         data: {
-            'product_id': productID
+            'product_id': productID,
+            'behaviour': 'plus_quantity'
+        },
+        success: function (response) {
+            const { quantity } = response
+            actionButtons.find("#quantity").text(quantity)
+            updateCartAmount(response)
+        }
+    })
+})
+
+$('.minus-cart').click(function () {
+    const actionButtons = $(this).closest("#action-buttons")
+    const productID = actionButtons.find("#product-id").text()
+    $.ajax({
+        type: 'GET',
+        url: `${BASE_URL}/update-cart`,
+        data: {
+            'product_id': productID,
+            'behaviour': 'minus_quantity'
         },
         success: function (response) {
             const { quantity } = response

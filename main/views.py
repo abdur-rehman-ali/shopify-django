@@ -66,10 +66,14 @@ def calulate_cart_amount(cart_items):
 @login_required(login_url='login')
 def update_cart(request):
   product_id = request.GET.get('product_id')
+  behaviour = request.GET.get('behaviour')
   if product_id is not None:
     cart_record = ShoppingCart.objects.get(product=product_id)
     if cart_record:
-      cart_record.quantity += 1
+      if behaviour == 'plus_quantity':
+        cart_record.quantity += 1
+      elif behaviour == 'minus_quantity':
+        cart_record.quantity -= 1
       cart_record.save()
   cart_items = request.user.cart_items.all()
   cart_record = ShoppingCart.objects.get(product=product_id)
