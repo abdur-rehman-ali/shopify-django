@@ -21,3 +21,32 @@ $('#slider1, #slider2, #slider3').owlCarousel({
         }
     }
 })
+const BASE_URL = 'http://localhost:8000'
+
+const updateCartAmount = (response) => {
+    const {
+        amount_without_shipping,
+        amount_with_shipping,
+        shipping,
+    } = response
+    $("#amount_without_shipping").text(`€ ${amount_without_shipping}`)
+    $("#amount_with_shipping").text(`€ ${amount_with_shipping}`)
+    $("#shipping").text(`€ ${shipping}`)
+}
+
+$('.plus-cart').click(function () {
+    const actionButtons = $(this).closest("#action-buttons")
+    const productID = actionButtons.find("#product-id").text()
+    $.ajax({
+        type: 'GET',
+        url: `${BASE_URL}/update-cart`,
+        data: {
+            'product_id': productID
+        },
+        success: function (response) {
+            const { quantity } = response
+            actionButtons.find("#quantity").text(quantity)
+            updateCartAmount(response)
+        }
+    })
+})

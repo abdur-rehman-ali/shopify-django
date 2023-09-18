@@ -9,6 +9,7 @@ from django.contrib.auth import (
   update_session_auth_hash
 )
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 
 # Local Imports 
 from .models import (
@@ -50,7 +51,7 @@ def shopping_cart(request):
     'amount_without_shipping': amount_without_shipping,
     'amount_with_shipping': amount_with_shipping,
     'shipping': shipping
-    }
+  }
   template_name = 'main/shopping_cart.html'
   return render(request, template_name, context)
 
@@ -60,7 +61,26 @@ def calulate_cart_amount(cart_items):
     amount_without_shipping += (item.product.discounted_price * item.quantity)
   shipping = 7.0
   amount_with_shipping = amount_without_shipping + shipping
-  return amount_without_shipping, amount_with_shipping, shipping
+  return float(amount_without_shipping), float(amount_with_shipping), float(shipping)
+
+@login_required(login_url='login')
+def update_cart(request):
+  product_id = request.GET.get('product_id')
+  if product_id is not None:
+    cart_record = ShoppingCart.objects.get(product=product_id)
+    if cart_record:
+      cart_record.quantity += 1
+      cart_record.save()
+  cart_items = request.user.cart_items.all()
+  cart_record = ShoppingCart.objects.get(product=product_id)
+  amount_without_shipping, amount_with_shipping, shipping = calulate_cart_amount(cart_items)
+  data = {
+    'amount_without_shipping': amount_without_shipping,
+    'amount_with_shipping': amount_with_shipping,
+    'shipping': shipping,
+    'quantity': cart_record.quantity
+  }
+  return JsonResponse(data)
 
 
 @login_required(login_url='login')
