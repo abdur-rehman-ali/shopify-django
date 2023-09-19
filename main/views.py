@@ -67,22 +67,29 @@ def calulate_cart_amount(cart_items):
 def update_cart(request):
   product_id = request.GET.get('product_id')
   behaviour = request.GET.get('behaviour')
+  is_record_deleted = False
   if product_id is not None:
-    cart_record = ShoppingCart.objects.get(product=product_id)
-    if cart_record:
-      if behaviour == 'plus_quantity':
-        cart_record.quantity += 1
-      elif behaviour == 'minus_quantity':
-        cart_record.quantity -= 1
+    cart_record = ShoppingCart.objects.filter(product=product_id).first()
+    if cart_record and behaviour == 'plus_quantity':
+      cart_record.quantity += 1
       cart_record.save()
+    elif cart_record and behaviour == 'minus_quantity':
+      if cart_record.quantity == 1:
+        cart_record.delete()
+      else: 
+        cart_record.quantity -= 1
+        cart_record.save()
+    cart_record_length = len(ShoppingCart.objects.filter(product=product_id))
+    if cart_record_length == 0:
+      is_record_deleted = True
   cart_items = request.user.cart_items.all()
-  cart_record = ShoppingCart.objects.get(product=product_id)
   amount_without_shipping, amount_with_shipping, shipping = calulate_cart_amount(cart_items)
   data = {
     'amount_without_shipping': amount_without_shipping,
     'amount_with_shipping': amount_with_shipping,
     'shipping': shipping,
-    'quantity': cart_record.quantity
+    'quantity': cart_record.quantity,
+    'is_record_deleted': is_record_deleted
   }
   return JsonResponse(data)
 

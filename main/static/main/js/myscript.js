@@ -63,9 +63,12 @@ $('.minus-cart').click(function () {
             'behaviour': 'minus_quantity'
         },
         success: function (response) {
-            const { quantity } = response
+            const { quantity, is_record_deleted } = response
             actionButtons.find("#quantity").text(quantity)
             updateCartAmount(response)
+            if (is_record_deleted) {
+                actionButtons.closest('.row').remove()
+            }
         }
     })
 })
