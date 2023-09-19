@@ -9,11 +9,13 @@ from django.contrib.auth import (
   update_session_auth_hash
 )
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 
 # Local Imports 
 from .models import (
   Product,
-  Address
+  Address,
+  ShoppingCart
 )
 from .forms import (
   CustomerRegistrationForm, 
@@ -40,9 +42,77 @@ def product_detail(request, id):
   context = { 'product': product }
   return render(request, template_name, context)
 
+@login_required(login_url='login')
+def shopping_cart(request):
+  cart_items = request.user.cart_items.all()
+  amount_without_shipping, amount_with_shipping, shipping = calulate_cart_amount(cart_items)
+  context = {
+    'cart_items': cart_items,
+    'amount_without_shipping': amount_without_shipping,
+    'amount_with_shipping': amount_with_shipping,
+    'shipping': shipping
+  }
+  template_name = 'main/shopping_cart.html'
+  return render(request, template_name, context)
+
+def calulate_cart_amount(cart_items):
+  amount_without_shipping = 0
+  for item in cart_items:
+    amount_without_shipping += (item.product.discounted_price * item.quantity)
+  shipping = 7.0
+  amount_with_shipping = amount_without_shipping + shipping
+  return float(amount_without_shipping), float(amount_with_shipping), float(shipping)
+
+@login_required(login_url='login')
+def update_cart(request):
+  product_id = request.GET.get('product_id')
+  behaviour = request.GET.get('behaviour')
+  is_record_deleted = False
+  if product_id is not None:
+    cart_record = ShoppingCart.objects.filter(product=product_id).first()
+    if cart_record and behaviour == 'plus_quantity':
+      cart_record.quantity += 1
+      cart_record.save()
+    elif cart_record and behaviour == 'minus_quantity':
+      if cart_record.quantity == 1:
+        cart_record.delete()
+      else: 
+        cart_record.quantity -= 1
+        cart_record.save()
+    elif behaviour == 'remove_item':
+        cart_record.delete()
+    cart_record_length = len(ShoppingCart.objects.filter(product=product_id))
+    if cart_record_length == 0:
+      is_record_deleted = True
+  cart_items = request.user.cart_items.all()
+  amount_without_shipping, amount_with_shipping, shipping = calulate_cart_amount(cart_items)
+  data = {
+    'amount_without_shipping': amount_without_shipping,
+    'amount_with_shipping': amount_with_shipping,
+    'shipping': shipping,
+    'quantity': cart_record.quantity,
+    'is_record_deleted': is_record_deleted
+  }
+  return JsonResponse(data)
+
+
+@login_required(login_url='login')
 def add_to_cart(request):
-  template_name = 'main/add_to_cart.html'
-  return render(request, template_name)
+  if request.method == 'POST':
+    product_id = request.POST['product_id']
+    if product_id is not None:
+      product = Product.objects.get(id=product_id)
+      user = request.user
+      cart_record, created = ShoppingCart.objects.get_or_create(
+        product=product,
+        user=user
+      )
+      if not created:
+        cart_record.quantity += 1
+        cart_record.save()
+      messages.success(request, 'Product has been added to cart')
+      return redirect(request.META.get('HTTP_REFERER', '/'))
+
 
 def buy_now(request):
   template_name = 'main/buy_now.html'

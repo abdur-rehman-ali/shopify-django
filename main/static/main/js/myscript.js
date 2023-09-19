@@ -21,3 +21,75 @@ $('#slider1, #slider2, #slider3').owlCarousel({
         }
     }
 })
+const BASE_URL = 'http://localhost:8000'
+
+const updateCartAmount = (response) => {
+    const {
+        amount_without_shipping,
+        amount_with_shipping,
+        shipping,
+    } = response
+    $("#amount_without_shipping").text(`€ ${amount_without_shipping}`)
+    $("#amount_with_shipping").text(`€ ${amount_with_shipping}`)
+    $("#shipping").text(`€ ${shipping}`)
+}
+
+$('.plus-cart').click(function () {
+    const actionButtons = $(this).closest("#action-buttons")
+    const productID = actionButtons.find("#product-id").text()
+    $.ajax({
+        type: 'GET',
+        url: `${BASE_URL}/update-cart`,
+        data: {
+            'product_id': productID,
+            'behaviour': 'plus_quantity'
+        },
+        success: function (response) {
+            const { quantity } = response
+            actionButtons.find("#quantity").text(quantity)
+            updateCartAmount(response)
+        }
+    })
+})
+
+$('.minus-cart').click(function () {
+    const actionButtons = $(this).closest("#action-buttons")
+    const productID = actionButtons.find("#product-id").text()
+    $.ajax({
+        type: 'GET',
+        url: `${BASE_URL}/update-cart`,
+        data: {
+            'product_id': productID,
+            'behaviour': 'minus_quantity'
+        },
+        success: function (response) {
+            const { quantity, is_record_deleted } = response
+            actionButtons.find("#quantity").text(quantity)
+            updateCartAmount(response)
+            if (is_record_deleted) {
+                actionButtons.closest('.row').remove()
+            }
+        }
+    })
+})
+
+$('.remove-cart-item').click(function () {
+    const actionButtons = $(this).closest("#action-buttons")
+    const productID = actionButtons.find("#product-id").text()
+    $.ajax({
+        type: 'GET',
+        url: `${BASE_URL}/update-cart`,
+        data: {
+            'product_id': productID,
+            'behaviour': 'remove_item'
+        },
+        success: function (response) {
+            const { quantity, is_record_deleted } = response
+            actionButtons.find("#quantity").text(quantity)
+            updateCartAmount(response)
+            if (is_record_deleted) {
+                actionButtons.closest('.row').remove()
+            }
+        }
+    })
+})
