@@ -79,6 +79,8 @@ def update_cart(request):
       else: 
         cart_record.quantity -= 1
         cart_record.save()
+    elif behaviour == 'remove_item':
+        cart_record.delete()
     cart_record_length = len(ShoppingCart.objects.filter(product=product_id))
     if cart_record_length == 0:
       is_record_deleted = True

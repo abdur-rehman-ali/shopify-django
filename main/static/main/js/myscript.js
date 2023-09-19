@@ -72,3 +72,24 @@ $('.minus-cart').click(function () {
         }
     })
 })
+
+$('.remove-cart-item').click(function () {
+    const actionButtons = $(this).closest("#action-buttons")
+    const productID = actionButtons.find("#product-id").text()
+    $.ajax({
+        type: 'GET',
+        url: `${BASE_URL}/update-cart`,
+        data: {
+            'product_id': productID,
+            'behaviour': 'remove_item'
+        },
+        success: function (response) {
+            const { quantity, is_record_deleted } = response
+            actionButtons.find("#quantity").text(quantity)
+            updateCartAmount(response)
+            if (is_record_deleted) {
+                actionButtons.closest('.row').remove()
+            }
+        }
+    })
+})
