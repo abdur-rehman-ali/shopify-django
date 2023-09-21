@@ -3,39 +3,57 @@
 {% block title %}Checkout{% endblock title %}
 {% block main-content %}
 <div class="container">
- <div class="row mt-5">
-  <div class="col-sm-6">
-    <h4>Order Summary</h4>
-    <hr>
-      <div class="card mb-2">
-        <div class="card-body">
-          <h5>Product: Product 1</h5>
-          <p>Quantity: 2</p>
-          <p class="fw-bold">Price: 10.00</p>
+  <div class="row mt-5">
+    {% if cart_items %}
+    <div class="col-sm-6">
+      <h4>Order Summary</h4>
+      <hr>
+        {% for item in cart_items %}
+        <div class="card mb-2">
+          <div class="card-body">
+            <h4><strong>Product:</strong> {{ item.product.title }}</h4>
+            <p><strong>Quantity:</strong> {{ item.quantity}} </p>
+            <p><strong>Price</strong> € {{ item.product.discounted_price }}</p>
+            <img src="{{item.product.product_image.url}}" alt="" width="100px">
+          </div>
         </div>
-      </div>
-    <small>Term and Condition: Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia, ullam saepe! Iure optio repellat dolor velit, minus rem. Facilis cumque neque numquam laboriosam, accusantium adipisci nisi nihil in et quis?</small>
-  </div>
-  <div class="col-sm-4 offset-sm-1">
-    <h4>Select Shipping Address</h4>
-    <hr>
-    <form action="">
-      <div class="card">
-        <div class="card-body">
-        <h5>Shah Bakht</h5>
-        <p>Dublin Ireland</p>
-        </div>
-      </div>
-        <div class="form-check mt-2 mb-5">
-          <input class="form-check-input" type="radio" value="">
-          <label class="form-check-label fw-bold" for="">
-            Address: 1 </label>
-        </div>
-        <div class="text-end">
-          <button type="submit" class="btn btn-warning mt-3 px-5 fw-bold">Continue</button>
-        </div>
-      </form>
+        {% endfor %}
+      <small><strong>Term and Condition:</strong> Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia, ullam saepe! Iure optio repellat dolor velit, minus rem. Facilis cumque neque numquam laboriosam, accusantium adipisci nisi nihil in et quis?</small>
     </div>
+    {% if addresses %}
+    <div class="col-sm-4 offset-sm-1">
+      <h4>User's Addresses</h4>
+      <hr>
+      <form action="">
+        {% for address in addresses %}
+        <div class="card my-2">
+          <div class="card-body">
+            <h3 class="text-center">Address {{ forloop.counter }}</h3>
+            <p><strong>Street:</strong> {{ address.street}}</p>
+            <p><strong>State:</strong> {{ address.state}}</p>
+            <p><strong>City</strong> {{ address.city}}</p>
+            <p><strong>Country:</strong> {{ address.country}}</p>
+            <p><strong>Zip Pin:</strong> {{ address.zip_code}}</p>
+            <p><strong>Phone:</strong> {{ address.phone_number}}</p>
+          </div>
+        </div>
+        {% endfor %}
+        <h4>Select Shipping Address</h4>
+        {% for address in addresses %}
+          <div class="form-check mt-2">
+            <label class="form-check-label fw-bold">
+              <input class="form-check-input" type="radio" name="address" value="{{address.id}}">
+              Address {{ forloop.counter }} 
+            </label>
+          </div>
+          {% endfor %}
+          <div class="text-end">
+            <button type="submit" class="btn btn-success mt-3 px-5 fw-bold">Confirm Order</button>
+          </div>
+        </form>
+    </div>
+    {% endif%}
+    {% endif %}
   </div>
 </div>
 {% endblock main-content %}
