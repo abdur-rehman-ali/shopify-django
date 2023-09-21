@@ -153,9 +153,14 @@ def orders(request):
   template_name = 'main/orders.html'
   return render(request, template_name)
 
+@login_required(login_url='login')
 def checkout(request):
+  cart_items = request.user.cart_items.all()
+  context = {
+    'cart_items': cart_items
+  }
   template_name = 'main/checkout.html'
-  return render(request, template_name)
+  return render(request, template_name, context)
 
 def mobile_category(request, data=None):
   mobiles = Product.objects.filter(category='Mobile')
