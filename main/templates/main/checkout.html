@@ -13,7 +13,7 @@
           <div class="card-body">
             <h4><strong>Product:</strong> {{ item.product.title }}</h4>
             <p><strong>Quantity:</strong> {{ item.quantity}} </p>
-            <p><strong>Price</strong> € {{ item.product.discounted_price }}</p>
+            <p><strong>Price</strong> € {{ item.total_cost }}</p>
             <img src="{{item.product.product_image.url}}" alt="" width="100px">
           </div>
         </div>
@@ -24,7 +24,7 @@
     <div class="col-sm-4 offset-sm-1">
       <h4>User's Addresses</h4>
       <hr>
-      <form action="">
+      <form action="{% url 'confirm_order' %}">
         {% for address in addresses %}
         <div class="card my-2">
           <div class="card-body">
@@ -42,7 +42,7 @@
         {% for address in addresses %}
           <div class="form-check mt-2">
             <label class="form-check-label fw-bold">
-              <input class="form-check-input" type="radio" name="address" value="{{address.id}}">
+              <input class="form-check-input" type="radio" name="address_id" required value="{{address.id}}">
               Address {{ forloop.counter }} 
             </label>
           </div>

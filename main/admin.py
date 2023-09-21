@@ -5,7 +5,8 @@ from django.contrib import admin
 from .models import (
   Product,
   Address,
-  ShoppingCart
+  ShoppingCart,
+  Order
 )
 
 @admin.register(Product)
@@ -19,3 +20,7 @@ class AddressAdmin(admin.ModelAdmin):
 @admin.register(ShoppingCart)
 class ShoppingCartAdmin(admin.ModelAdmin):
   list_display = ('id', 'user', 'product', 'quantity')
+
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+  list_display = ('id', 'user', 'address', 'product', 'quantity', 'ordered_date', 'status')

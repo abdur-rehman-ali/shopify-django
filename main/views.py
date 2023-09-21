@@ -15,7 +15,8 @@ from django.http import JsonResponse
 from .models import (
   Product,
   Address,
-  ShoppingCart
+  ShoppingCart,
+  Order
 )
 from .forms import (
   CustomerRegistrationForm, 
@@ -163,6 +164,18 @@ def checkout(request):
   }
   template_name = 'main/checkout.html'
   return render(request, template_name, context)
+
+@login_required(login_url='login')
+def confirm_order(request):
+  address_id = request.GET.get('address_id')
+  address = Address.objects.get(id=address_id)
+  user = request.user
+  cart_items = user.cart_items.all()
+  for item in cart_items:
+    Order(user=user, product=item.product, quantity=item.quantity, address=address).save()
+    item.delete()
+  messages.success(request, "Order Placed successfully")
+  return redirect(reverse('orders'))
 
 def mobile_category(request, data=None):
   mobiles = Product.objects.filter(category='Mobile')

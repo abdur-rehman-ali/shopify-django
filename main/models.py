@@ -34,5 +34,26 @@ class ShoppingCart(models.Model):
   product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='cart_products')
   user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='cart_items')
   quantity = models.IntegerField(default=1)
+
+  @property
+  def total_cost(self):
+    return self.quantity * self.product.discounted_price
+  
   class Meta:
     unique_together = ('product', 'user')
+
+STATUS_CHOICES = (
+  ('pending', 'Pending'),
+  ('accepted', 'Accepted'),
+  ('rejected', 'Rejected'),
+  ('dispatched', 'Dispatched'),
+  ('delivered', 'Delivered'),
+)
+
+class Order(models.Model):
+  user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders')
+  address = models.ForeignKey(Address, on_delete=models.CASCADE, related_name='orders')
+  product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='orders')
+  quantity = models.IntegerField(default=1)
+  ordered_date = models.DateTimeField(auto_now_add=True)
+  status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
