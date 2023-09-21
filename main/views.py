@@ -151,8 +151,12 @@ def address(request):
 
 @login_required(login_url='login')
 def orders(request):
+  orders = request.user.orders.all()
   template_name = 'main/orders.html'
-  return render(request, template_name)
+  context = {
+    'orders': orders
+  }
+  return render(request, template_name, context)
 
 @login_required(login_url='login')
 def checkout(request):
