@@ -17,6 +17,7 @@ urlpatterns = [
   path('address', views.address, name="address"),
   path('orders', views.orders, name="orders"),
   path('checkout', views.checkout, name="checkout"),
+  path('confirm-order', views.confirm_order, name="confirm_order"),
   path('category/mobile', views.mobile_category, {'data': None}, name="mobile_category_index"),
   path('category/mobile/<slug:data>', views.mobile_category, name="mobile_category"),
   path('category/laptop', views.laptop_category, {'data': None}, name="laptop_category_index"),
