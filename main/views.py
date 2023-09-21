@@ -151,7 +151,7 @@ def address(request):
 
 @login_required(login_url='login')
 def orders(request):
-  orders = request.user.orders.all()
+  orders = request.user.orders.all().order_by('-ordered_date')
   template_name = 'main/orders.html'
   context = {
     'orders': orders
