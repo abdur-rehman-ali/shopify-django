@@ -156,8 +156,10 @@ def orders(request):
 @login_required(login_url='login')
 def checkout(request):
   cart_items = request.user.cart_items.all()
+  addresses = request.user.addresses.all()
   context = {
-    'cart_items': cart_items
+    'cart_items': cart_items,
+    'addresses': addresses
   }
   template_name = 'main/checkout.html'
   return render(request, template_name, context)

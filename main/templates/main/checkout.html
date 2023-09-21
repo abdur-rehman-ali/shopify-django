@@ -20,26 +20,39 @@
         {% endfor %}
       <small><strong>Term and Condition:</strong> Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia, ullam saepe! Iure optio repellat dolor velit, minus rem. Facilis cumque neque numquam laboriosam, accusantium adipisci nisi nihil in et quis?</small>
     </div>
+    {% if addresses %}
     <div class="col-sm-4 offset-sm-1">
-      <h4>Select Shipping Address</h4>
+      <h4>User's Addresses</h4>
       <hr>
       <form action="">
-        <div class="card">
+        {% for address in addresses %}
+        <div class="card my-2">
           <div class="card-body">
-          <h5>Shah Bakht</h5>
-          <p>Dublin Ireland</p>
+            <h3 class="text-center">Address {{ forloop.counter }}</h3>
+            <p><strong>Street:</strong> {{ address.street}}</p>
+            <p><strong>State:</strong> {{ address.state}}</p>
+            <p><strong>City</strong> {{ address.city}}</p>
+            <p><strong>Country:</strong> {{ address.country}}</p>
+            <p><strong>Zip Pin:</strong> {{ address.zip_code}}</p>
+            <p><strong>Phone:</strong> {{ address.phone_number}}</p>
           </div>
         </div>
-          <div class="form-check mt-2 mb-5">
-            <input class="form-check-input" type="radio" value="">
-            <label class="form-check-label fw-bold" for="">
-              Address: 1 </label>
+        {% endfor %}
+        <h4>Select Shipping Address</h4>
+        {% for address in addresses %}
+          <div class="form-check mt-2">
+            <label class="form-check-label fw-bold">
+              <input class="form-check-input" type="radio" name="address" value="{{address.id}}">
+              Address {{ forloop.counter }} 
+            </label>
           </div>
+          {% endfor %}
           <div class="text-end">
-            <button type="submit" class="btn btn-warning mt-3 px-5 fw-bold">Continue</button>
+            <button type="submit" class="btn btn-success mt-3 px-5 fw-bold">Confirm Order</button>
           </div>
         </form>
     </div>
+    {% endif%}
     {% endif %}
   </div>
 </div>
