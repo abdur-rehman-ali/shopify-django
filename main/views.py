@@ -258,18 +258,27 @@ def password_change(request):
   context = {'form': form}
   return render(request, template_name, context)
 
-
+@login_required(login_url='login')
 def new_product(request):
   if request.method == 'POST':
     form = ProductForm(request.POST, request.FILES)
     if form.is_valid():
       form.save()
       messages.success(request, 'Product has been successfully added!')
-      return redirect(reverse('new_product'))
+      return redirect(reverse('products'))
   else:
     form = ProductForm(label_suffix='')
   template_name = 'main/new_product.html'
   context = {
     'form': form
+  }
+  return render(request, template_name, context)
+
+@login_required(login_url='login')
+def products(request):
+  products = Product.objects.all()
+  template_name = 'main/products.html'
+  context = {
+    'products': products
   }
   return render(request, template_name, context)
