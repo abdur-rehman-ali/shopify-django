@@ -60,7 +60,7 @@
           {% if request.user.is_authenticated %}
             {% if request.user.is_superuser %}
               <li class="nav-item mx-2">
-                <a href="#" class="nav-link text-white">Add Products</a>
+                <a href="{% url 'new_product' %}" class="nav-link text-white">Add Products</a>
               </li>
             {% endif %}
             <li class="nav-item dropdown mx-2">
