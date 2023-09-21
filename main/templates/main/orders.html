@@ -11,10 +11,22 @@
    </ul>
   </div>
   <div class="col-sm-9 offset-sm-1">
-   <div class="row">
-    <div class="col-sm-6">Order 1</div>
-    <div class="col-sm-6">Order 2</div>
-   </div>
+    {% if orders %}
+      {% for order in orders %}
+        <div class="row">
+          <div class="col-sm-6">
+            <p><strong>ID: </strong> {{order.id}}</p>
+            <p><strong>Product: </strong> {{order.product.title}}</p>
+            <p><strong>Quantity: </strong> {{order.quantity}}</p>
+            <p><strong>Price: </strong> {{order.product.discounted_price}}</p>
+            <p><strong>Status: </strong> {{order.status}}</p>
+            <p><strong>Address: </strong> {{order.address.formatted_address}}</p>
+            <p><strong>Ordered Date: </strong> {{order.ordered_date}}</p>
+          </div>
+          <hr>
+        </div>
+      {% endfor %}
+    {% endif %}
   </div>
  </div>
 </div>

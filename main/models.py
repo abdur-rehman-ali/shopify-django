@@ -30,6 +30,13 @@ class Address(models.Model):
   phone_number = models.CharField(max_length=20)
   user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='addresses')
 
+  @property
+  def formatted_address(self):
+    return f"{self.street},  {self.state}, {self.city}, {self.country}"
+
+  def __str__(self):
+    return f"{self.id}"
+
 class ShoppingCart(models.Model):
   product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='cart_products')
   user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='cart_items')
