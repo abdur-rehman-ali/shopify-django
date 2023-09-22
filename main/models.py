@@ -71,5 +71,9 @@ class Item(models.Model):
   product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='ordered_items')
   quantity = models.IntegerField(default=1)
 
+  @property
+  def total_cost(self):
+    return self.quantity * self.product.discounted_price
+
   def __str__(self):
     return f"{self.id}"

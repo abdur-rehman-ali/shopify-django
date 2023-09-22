@@ -15,10 +15,16 @@
       {% for order in orders %}
         <div class="row">
           <div class="col-sm-6">
-            <p><strong>ID: </strong> {{order.id}}</p>
-            <p><strong>Product: </strong> {{order.product.title}}</p>
-            <p><strong>Quantity: </strong> {{order.quantity}}</p>
-            <p><strong>Price: </strong> {{order.product.discounted_price}}</p>
+            <p><strong>Order Number: </strong> {{order.id}}</p>
+            {% for item in order.items.all %}
+              <div>
+                <p><strong>Product: </strong> {{item.product.title}}</p>
+                <p><strong>Quantity: </strong> {{item.quantity}}</p>
+                <p><strong>Total Price: </strong> {{item.total_cost}}</p>
+                <img src="{{item.product.product_image.url}}" alt="" width="100px">
+                <hr>
+              </div>
+            {% endfor %}
             <p><strong>Status: </strong> {{order.status}}</p>
             <p><strong>Address: </strong> {{order.address.formatted_address}}</p>
             <p><strong>Ordered Date: </strong> {{order.ordered_date}}</p>
