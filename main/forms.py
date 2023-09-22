@@ -8,7 +8,10 @@ from django.contrib.auth.forms import (
 from django.contrib.auth.models import User
 
 # Local imports
-from .models import Product
+from .models import (
+  Product,
+  Order
+)
 
 class CustomerRegistrationForm(UserCreationForm):
   """
@@ -119,3 +122,11 @@ class ProductForm(forms.ModelForm):
       if discounted_price > selling_price:
         raise forms.ValidationError("Discounted price cannot be greater than selling price.")
 
+class OrderStatusUpdateForm(forms.ModelForm):
+  class Meta:
+    model = Order
+    fields = ['status']
+    widgets = {
+    'status': forms.Select(attrs={'class': 'form-control'})
+    }
+      

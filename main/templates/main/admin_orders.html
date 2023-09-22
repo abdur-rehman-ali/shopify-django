@@ -30,6 +30,7 @@
             <p><strong>Username: </strong> {{order.user.username}}</p>
             <p><strong>Phone Number: </strong> {{order.address.phone_number}}</p>
           </div>
+          <a href="{% url 'update_order_status' order.id %}" class="btn btn-dark">Update Order Status</a>
           <hr>
         </div>
       {% endfor %}
