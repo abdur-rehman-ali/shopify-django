@@ -6,7 +6,8 @@ from .models import (
   Product,
   Address,
   ShoppingCart,
-  Order
+  Order,
+  Item
 )
 
 @admin.register(Product)
@@ -23,4 +24,8 @@ class ShoppingCartAdmin(admin.ModelAdmin):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-  list_display = ('id', 'user', 'address', 'product', 'quantity', 'ordered_date', 'status')
+  list_display = ('id', 'user', 'address', 'ordered_date', 'status')
+
+@admin.register(Item)
+class ItemAdmin(admin.ModelAdmin):
+  list_display = ('id', 'order', 'product', 'quantity')
