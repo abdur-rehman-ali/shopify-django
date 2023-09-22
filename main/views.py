@@ -305,3 +305,10 @@ def edit_product(request, product_id):
     'product_id': product_id,
   }
   return render(request, template_name, context)
+
+@login_required(login_url='login')
+def delete_product(request, product_id):
+  product = Product.objects.get(id=product_id)
+  product.delete()
+  messages.success(request, 'Product has been successfully deleted!')
+  return redirect(reverse('products'))
