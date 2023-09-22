@@ -28,7 +28,8 @@ from .forms import (
   CustomerLoginForm, 
   CustomerPasswordChangeForm,
   AddressForm,
-  ProductForm
+  ProductForm,
+  OrderStatusUpdateForm
 )
 
 def index(request):
@@ -317,7 +318,7 @@ def delete_product(request, product_id):
   messages.success(request, 'Product has been successfully deleted!')
   return redirect(reverse('products'))
 
-
+@login_required(login_url='login')
 def admin_orders(request):
   orders = Order.objects.all()
   template_name = 'main/admin_orders.html'
@@ -325,3 +326,22 @@ def admin_orders(request):
     'orders': orders
   }
   return render(request, template_name, context)
+
+@login_required(login_url='login')
+def update_order_status(request, order_id):
+  order = Order.objects.get(id=order_id)
+  if request.method == 'POST':
+    form = OrderStatusUpdateForm(request.POST, instance=order)
+    if form.is_valid():
+      form.save()
+      messages.success(request, 'Order status has been successfully updated!')
+      return redirect(reverse('admin_orders'))  
+  else:
+    form = OrderStatusUpdateForm(instance=order)
+  template_name = 'main/update_order_status.html'  
+  context = {
+      'form': form,
+      'order': order,
+  }
+  return render(request, template_name, context)
+  
