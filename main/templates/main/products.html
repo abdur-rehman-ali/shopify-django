@@ -13,6 +13,7 @@
             <h5 class="card-title">{{ product.title }}</h5>
             <p class="card-text">{{ product.selling_price }}€</p>
             <a href="{% url 'product_detail' product.id %}" class="btn btn-outline-dark">Details</a>
+            <a href="{% url 'edit_product' product.id %}" class="btn btn-outline-dark">Edit</a>
           </div>
         </div>
       {% endfor %}

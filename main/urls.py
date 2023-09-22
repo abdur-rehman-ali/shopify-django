@@ -28,4 +28,5 @@ urlpatterns = [
   path('change/password', views.password_change, name="password_change"),
   path('products/new', views.new_product, name="new_product"),
   path('products', views.products, name="products"),
+  path('products/<int:product_id>/edit', views.edit_product, name="edit_product"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
