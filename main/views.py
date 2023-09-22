@@ -193,7 +193,7 @@ def confirm_order(request):
 
 def mobile_category(request, data=None):
   mobiles = Product.objects.filter(category='Mobile')
-  if data == 'apple' or data == 'samsung':
+  if data == 'Apple' or data == 'Samsung':
     mobiles = mobiles.filter(brand=data)
   elif data == 'less_than_300':
     mobiles = mobiles.filter(selling_price__lte=300)
