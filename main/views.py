@@ -316,3 +316,12 @@ def delete_product(request, product_id):
   product.delete()
   messages.success(request, 'Product has been successfully deleted!')
   return redirect(reverse('products'))
+
+
+def admin_orders(request):
+  orders = Order.objects.all()
+  template_name = 'main/admin_orders.html'
+  context = {
+    'orders': orders
+  }
+  return render(request, template_name, context)
