@@ -97,52 +97,25 @@ CATEGORIES = (
   ('Bottom Wear','Bottom Wear'),
 )
 
-class ProductForm(forms.Form):
-  """
-    A form for products.
-  """
-  title = forms.CharField(
-    max_length=100,
-    widget=forms.TextInput(attrs={'class': 'form-control'})
-  )
-  description = forms.CharField(
-    widget=forms.Textarea(attrs={'class': 'form-control'})
-  )
-  selling_price = forms.FloatField(
-    widget=forms.NumberInput(attrs={'class': 'form-control'})
-  )
-  discounted_price = forms.FloatField(
-    widget=forms.NumberInput(attrs={'class': 'form-control'})
-  )
-  category = forms.ChoiceField(
-    choices=CATEGORIES,
-    widget=forms.Select(attrs={'class': 'form-control'})
-  )
-  brand = forms.CharField(
-    max_length=100,
-    widget=forms.TextInput(attrs={'class': 'form-control'})
-  )
-  product_image = forms.ImageField(
-    widget=forms.FileInput(attrs={'class': 'form-control'})
-  )
-
-  def clean(self):
-      cleaned_data = super().clean()
-      selling_price = cleaned_data.get('selling_price')
-      discounted_price = cleaned_data.get('discounted_price')
-      if selling_price is not None and discounted_price is not None:
-        if discounted_price > selling_price:
-          raise forms.ValidationError("Discounted price cannot be greater than selling price.")
-
-  def save(self):
-    product_data = {
-      'title': self.cleaned_data['title'],
-      'description': self.cleaned_data['description'],
-      'selling_price': self.cleaned_data['selling_price'],
-      'discounted_price': self.cleaned_data['discounted_price'],
-      'brand': self.cleaned_data['brand'],
-      'category': self.cleaned_data['category'],
-      'product_image': self.cleaned_data['product_image'],
+class ProductForm(forms.ModelForm):
+  class Meta:
+    model = Product
+    fields = ['title', 'description', 'selling_price', 'discounted_price', 'category', 'brand', 'product_image']
+    widgets = {
+      'title': forms.TextInput(attrs={'class': 'form-control'}),
+      'description': forms.Textarea(attrs={'class': 'form-control'}),
+      'selling_price': forms.NumberInput(attrs={'class': 'form-control'}),
+      'discounted_price': forms.NumberInput(attrs={'class': 'form-control'}),
+      'category': forms.Select(attrs={'class': 'form-control'}),
+      'brand': forms.TextInput(attrs={'class': 'form-control'}),
+      'product_image': forms.FileInput(attrs={'class': 'form-control'}),
     }
-    product = Product(**product_data)
-    product.save()
+  
+  def clean(self):
+    cleaned_data = super().clean()
+    selling_price = cleaned_data.get('selling_price')
+    discounted_price = cleaned_data.get('discounted_price')
+    if selling_price is not None and discounted_price is not None:
+      if discounted_price > selling_price:
+        raise forms.ValidationError("Discounted price cannot be greater than selling price.")
+

@@ -1,5 +1,9 @@
 # Django Imports 
-from django.shortcuts import render, redirect
+from django.shortcuts import (
+  render,
+  redirect,
+  get_object_or_404
+)
 from django.contrib import messages
 from django.urls import reverse
 from django.contrib.auth import (
@@ -280,5 +284,24 @@ def products(request):
   template_name = 'main/products.html'
   context = {
     'products': products
+  }
+  return render(request, template_name, context)
+
+@login_required(login_url='login')
+def edit_product(request, product_id):
+  product = Product.objects.get(id=product_id)
+  if request.method == 'POST':
+    form = ProductForm(request.POST, request.FILES, instance=product)
+    print(form)
+    if form.is_valid():
+      form.save()
+      messages.success(request, 'Product has been successfully updated!')
+      return redirect(reverse('products'))
+  else:
+    form = ProductForm(label_suffix='', instance=product)
+  template_name = 'main/edit_product.html'
+  context = {
+    'form': form,
+    'product_id': product_id,
   }
   return render(request, template_name, context)
