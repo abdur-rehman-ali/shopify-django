@@ -20,7 +20,8 @@ from .models import (
   Product,
   Address,
   ShoppingCart,
-  Order
+  Order,
+  Item
 )
 from .forms import (
   CustomerRegistrationForm, 
@@ -180,9 +181,12 @@ def confirm_order(request):
   address = Address.objects.get(id=address_id)
   user = request.user
   cart_items = user.cart_items.all()
-  for item in cart_items:
-    Order(user=user, product=item.product, quantity=item.quantity, address=address).save()
-    item.delete()
+  new_order = Order(user=user, address=address)
+  new_order.save()
+  order = Order.objects.get(pk=new_order.pk)
+  for cart_item in cart_items:
+    Item(product=cart_item.product, quantity=cart_item.quantity, order=order).save()
+    cart_item.delete()
   messages.success(request, "Order Placed successfully")
   return redirect(reverse('orders'))
 
