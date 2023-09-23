@@ -285,62 +285,79 @@ def new_product(request):
 
 @login_required(login_url='login')
 def products(request):
-  products = Product.objects.all()
-  template_name = 'main/products.html'
-  context = {
-    'products': products
-  }
-  return render(request, template_name, context)
+  if request.user.is_superuser:
+    products = Product.objects.all()
+    template_name = 'main/products.html'
+    context = {
+      'products': products
+    }
+    return render(request, template_name, context)
+  else:
+    return redirect(reverse('home'))
+
 
 @login_required(login_url='login')
 def edit_product(request, product_id):
-  product = Product.objects.get(id=product_id)
-  if request.method == 'POST':
-    form = ProductForm(request.POST, request.FILES, instance=product)
-    if form.is_valid():
-      form.save()
-      messages.success(request, 'Product has been successfully updated!')
-      return redirect(reverse('products'))
+  if request.user.is_superuser:
+    product = Product.objects.get(id=product_id)
+    if request.method == 'POST':
+      form = ProductForm(request.POST, request.FILES, instance=product)
+      if form.is_valid():
+        form.save()
+        messages.success(request, 'Product has been successfully updated!')
+        return redirect(reverse('products'))
+    else:
+      form = ProductForm(label_suffix='', instance=product)
+    template_name = 'main/edit_product.html'
+    context = {
+      'form': form,
+      'product_id': product_id,
+    }
+    return render(request, template_name, context)
   else:
-    form = ProductForm(label_suffix='', instance=product)
-  template_name = 'main/edit_product.html'
-  context = {
-    'form': form,
-    'product_id': product_id,
-  }
-  return render(request, template_name, context)
+    return redirect(reverse('home'))
 
 @login_required(login_url='login')
 def delete_product(request, product_id):
-  product = Product.objects.get(id=product_id)
-  product.delete()
-  messages.success(request, 'Product has been successfully deleted!')
-  return redirect(reverse('products'))
+  if request.user.is_superuser:
+    product = Product.objects.get(id=product_id)
+    product.delete()
+    messages.success(request, 'Product has been successfully deleted!')
+    return redirect(reverse('products'))
+  else:
+    return redirect(reverse('home'))
+
 
 @login_required(login_url='login')
 def admin_orders(request):
-  orders = Order.objects.all()
-  template_name = 'main/admin_orders.html'
-  context = {
-    'orders': orders
-  }
-  return render(request, template_name, context)
+  if request.user.is_superuser:
+    orders = Order.objects.all()
+    template_name = 'main/admin_orders.html'
+    context = {
+      'orders': orders
+    }
+    return render(request, template_name, context)
+  else:
+    return redirect(reverse('home'))
 
 @login_required(login_url='login')
 def update_order_status(request, order_id):
-  order = Order.objects.get(id=order_id)
-  if request.method == 'POST':
-    form = OrderStatusUpdateForm(request.POST, instance=order)
-    if form.is_valid():
-      form.save()
-      messages.success(request, 'Order status has been successfully updated!')
-      return redirect(reverse('admin_orders'))  
+  if request.user.is_superuser:
+    order = Order.objects.get(id=order_id)
+    if request.method == 'POST':
+      form = OrderStatusUpdateForm(request.POST, instance=order)
+      if form.is_valid():
+        form.save()
+        messages.success(request, 'Order status has been successfully updated!')
+        return redirect(reverse('admin_orders'))  
+    else:
+      form = OrderStatusUpdateForm(instance=order)
+    template_name = 'main/update_order_status.html'  
+    context = {
+        'form': form,
+        'order': order,
+    }
+    return render(request, template_name, context)
   else:
-    form = OrderStatusUpdateForm(instance=order)
-  template_name = 'main/update_order_status.html'  
-  context = {
-      'form': form,
-      'order': order,
-  }
-  return render(request, template_name, context)
+    return redirect(reverse('home'))
   
