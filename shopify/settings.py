@@ -28,7 +28,7 @@ SECRET_KEY = os.environ['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["shopify123-255374084b94.herokuapp.com/", "localhost"]
+ALLOWED_HOSTS = ["shopify123-255374084b94.herokuapp.com", "localhost"]
 
 
 # Application definition
