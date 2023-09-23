@@ -360,4 +360,3 @@ def update_order_status(request, order_id):
     return render(request, template_name, context)
   else:
     return redirect(reverse('home'))
-  
