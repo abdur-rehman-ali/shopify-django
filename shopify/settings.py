@@ -138,3 +138,7 @@ CLOUDINARY_STORAGE = {
     'API_KEY': config('CLOUDINARY_STORAGE_API_KEY'),
     'API_SECRET': config('CLOUDINARY_STORAGE_API_SECRET')
 }
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://shopify123-255374084b94.herokuapp.com'
+]
