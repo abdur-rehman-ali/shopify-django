@@ -21,7 +21,7 @@ $('#slider1, #slider2, #slider3').owlCarousel({
         }
     }
 })
-const BASE_URL = 'http://localhost:8000'
+const BASE_URL = 'https://shopify123-255374084b94.herokuapp.com'
 
 const updateCartAmount = (response) => {
     const {
